@@ -1,0 +1,49 @@
+ # call for input, key value assigned; encoded message writen at end of script
+
+text = input("Please enter a sentence: ")
+key = int(5)
+
+# convert message into ascii code
+orig_indices = []
+for ele in text:
+	orig_indices.extend(ord(num) for num in ele)
+
+# add key value to the ascii value to shift the resulting encoded letters
+
+new_indices = []
+new_indices.extend(x + key for x in orig_indices)
+
+# looped new_indices to adjust for alphabet wrap-around and keep spaces
+
+adj_indices = []
+
+for i in range(len(orig_indices)):
+    ascii_value = orig_indices[i]
+    shifted_value = ascii_value + key
+
+    # Wrap-around logic
+    if shifted_value > 122 and ascii_value != 32:  # Exclude spaces from wrapping
+        over = shifted_value - 122
+        shifted_value = 96 + over
+    # Check for spaces
+    elif ascii_value == 32:
+        shifted_value = ascii_value  # Keep spaces as they are
+
+    # Append to adj_indices
+    adj_indices.append(shifted_value)
+
+# encoded text list and final encoded string message
+
+encode_text = []
+for ele in adj_indices:
+   encode_text.extend(chr(ele))
+
+# converts encode_text list to string
+encode_string = ''.join(encode_text)
+
+# print("orig_indices", orig_indices)
+# print("new_incides", new_indices)
+# print("adj_indices", adj_indices)
+# print("encode_text", encode_text)
+# print("encode_string: ", encode_string)
+print(f"The encrypted sentence is: {encode_string}")
